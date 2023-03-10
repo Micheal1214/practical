@@ -1,3 +1,4 @@
+import 'package:blinkid_flutter/types.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -11,14 +12,14 @@ late User? user = null;
 class User{
   int? id ;
   String userName;
-  String date ;
+  Date? date ;
   String gender;
   String email;
   String phone;
   String password;
   String confirmPassword;
 
-  User({required this.userName,required this.date,required this.gender,required this.email,required this.phone, required this.password
+  User({required this.userName,this.date,required this.gender,required this.email,required this.phone, required this.password
     ,required this.confirmPassword, this.id});
 
   factory User.fromMap(Map<String,dynamic> map) => User(
@@ -54,7 +55,7 @@ class DatabaseHelper {
     return openDatabase(
         join(await getDatabasesPath(), _dbName),
         onCreate: (Database db, version) async =>
-        await db.execute('CREATE TABLE User (id INTEGER PRIMARY KEY, userName STRING NOT NULL,date STRING NOT NULL,gender STRING NOT NULL,email STRING NOT NULL,phone STRING NOT NULL,password STRING NOT NULL,confirmPassword STRING NOT NULL)'),
+        await db.execute('CREATE TABLE User (id INTEGER PRIMARY KEY, userName STRING NOT NULL,date Date ,gender STRING NOT NULL,email STRING NOT NULL,phone STRING NOT NULL,password STRING NOT NULL,confirmPassword STRING NOT NULL)'),
         version: _version
     );
   }

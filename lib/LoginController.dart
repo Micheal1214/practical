@@ -1,17 +1,20 @@
+
+import 'package:blinkid_flutter/recognizers/blink_id_combined_recognizer.dart';
+import 'package:blinkid_flutter/types.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'login.dart';
 
 class LoginController extends GetxController {
 
-  TextEditingController userTextField= TextEditingController();
+  TextEditingController userTextField = TextEditingController();
   TextEditingController emailTextField= TextEditingController();
   TextEditingController phoneTextField= TextEditingController();
   TextEditingController dropdownValue= TextEditingController();
   TextEditingController passwordTextField= TextEditingController();
   TextEditingController confirmPasswordTextField= TextEditingController();
   TextEditingController dateTextField= TextEditingController();
-
+  TextEditingController genderTextField= TextEditingController();
 
   int calculateAge(DateTime birthDate) {
     DateTime currentDate = DateTime.now();
@@ -25,12 +28,13 @@ class LoginController extends GetxController {
     }
     return age;
   }
+
   RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
   RegExp cpass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
-  RegExp name_valid =  RegExp(r"^(?=.*[A-Z])(?=.*[a-z])[A-Za-z]+$");
-   RegExp email_valid = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  RegExp name_valid =  RegExp(r'^[A-Z\s]+$');
+  RegExp email_valid = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
   RegExp phone_valid = RegExp(r'^\d{3}-\d{7}$');
-  String? gender;
+
 
   bool validatePassword(String pass){
     String _password= pass.trim();
@@ -89,7 +93,6 @@ class LoginController extends GetxController {
     }
   }
 
-
   String? FormPasswordValidators(String? value){
     if(value == null || value.isEmpty){
       return"Please enter password";
@@ -102,6 +105,7 @@ class LoginController extends GetxController {
       }
     }
   }
+
    String? FormBuilderUserNameValidators(String? value){
      if (value == null || value.isEmpty) {
        return 'Please enter your name';
@@ -115,6 +119,7 @@ class LoginController extends GetxController {
 
      }
   }
+
 }
 
 class LoginApp extends StatelessWidget{

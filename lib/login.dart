@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
+import 'package:untitled3/blinkId.dart';
 import 'package:untitled3/registration.dart';
 import 'DatabaseHandler/DatabaseHelper.dart';
 import 'FormController.dart';
 import 'LoginController.dart';
-import 'blinkId.dart';
-import 'blinkidForm.dart';
 import 'home.dart';
 
 class MyStatefulWidget extends StatefulWidget {
@@ -78,7 +77,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () async {
-                      // Check if email and password fields are not empty
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         User? user = await DatabaseHelper.getEmail(c.emailTextField.text);
@@ -101,7 +99,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                       ),
                       onPressed: () {
-                        Get.to(MyApp());//signup screen
+                        Get.to(Register());//signup screen
                       },),],),],)));
   }
 

@@ -1,3 +1,4 @@
+import 'package:blinkid_flutter/types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,17 +31,17 @@ class _UserpageState extends State<Userpage> {
     getUserData();
   }
   Future<void> _saveData() async {
+    var dateOfBirth = Date(DateTime.parse(c.dateTextField.text) as Map<String, dynamic>);
     var users = User(
-      id:user?.id,
-      userName: c.userTextField.text,
+      userName:c.userTextField.text,
       email: c.emailTextField.text,
-      phone: c.phoneTextField.text,
+      phone:  c.phoneTextField.text,
       password: c.passwordTextField.text,
       confirmPassword: c.confirmPasswordTextField.text,
-      date: c.dateTextField.text,
-      gender: f.dropdownValue.value,
+      date:dateOfBirth,
+      gender: c.genderTextField.text,
+      id:user?.id,);
 
-    );
     print(users);
     DatabaseHelper.updateUser(users);
 
@@ -101,7 +102,7 @@ class _UserpageState extends State<Userpage> {
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(20),
                     child:TextFormField(
-                      initialValue:user?.date,
+                      initialValue:user?.date.toString(),
                       enabled: false,
                       decoration:  const InputDecoration(
                         labelText: 'Birthday Date',

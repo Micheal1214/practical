@@ -1,17 +1,23 @@
+import 'package:blinkid_flutter/microblink_scanner.dart';
+import 'package:blinkid_flutter/recognizer.dart';
+import 'package:blinkid_flutter/recognizers/blink_id_combined_recognizer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/src/material/icons.dart';
+import 'package:untitled3/blinkId.dart';
 import 'LoginController.dart';
-import 'blinkId.dart';
+
 
 const List<String> list = <String>['Select Your gender','Male', 'Female', 'Other'];
 
 class FormController extends GetxController {
   final LoginController c = Get.put(LoginController());
-  RxBool _isHidden = true.obs;
-  final Scan = MyApp();
+  final RxBool _isHidden = true.obs;
+
+   BlinkIdCombinedRecognizerResult? result;
 
   Widget buildEmailFormField() {
     return Container(
@@ -19,9 +25,9 @@ class FormController extends GetxController {
         padding: const EdgeInsets.all(20),
         child: TextFormField(
           controller: c.emailTextField,
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
           decoration: const InputDecoration(
-            icon: const Icon(Icons.email),
+            icon: Icon(Icons.email),
             border: OutlineInputBorder(),
             hintText: 'Enter an email',
             labelText: 'Email',
@@ -41,7 +47,7 @@ class FormController extends GetxController {
           controller: c.passwordTextField,
           decoration: InputDecoration(
             icon: const Icon(Icons.password),
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             hintText: 'Enter a password',
             labelText: 'Password',
             suffix: InkWell(
@@ -58,78 +64,60 @@ class FormController extends GetxController {
 
   Widget buildDateFormField(BuildContext context) {
     return Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(20),
-        child:
-        TextFormField(readOnly: true,
-          validator: c.FormDateValidators,
-          controller: c.dateTextField,
-          decoration: const InputDecoration(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          TextFormField(
+            controller:c.dateTextField,
+            decoration: const InputDecoration(
               icon: Icon(Icons.calendar_today_rounded),
               border: OutlineInputBorder(),
-              labelText: "Select Birthday Date"
+              hintText: 'Enter your date',
+              labelText: 'Date',
+            ),
+            validator: c.FormDateValidators,
           ),
-          onTap: () async {
-            DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1990),
-                lastDate: DateTime(2200));
-            if (pickedDate != null) {
-              print(pickedDate);
-              String formattedDate = DateFormat('yyyy-MM-dd').format(
-                  pickedDate);
-              print(formattedDate);
-              c.dateTextField.text = formattedDate;
-            } else {
-              print("Date is not selected");
-            }
-          },
-        ));
+        ],
+      ),
+    );
   }
-
-  var dropdownValue = list.first.obs;
 
   Widget buildNameFormField() {
     return Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(20),
-        child: TextFormField(
-          controller: c.userTextField,
-          decoration: const InputDecoration(
-            icon: const Icon(Icons.person),
-            border: OutlineInputBorder(),
-            hintText: 'Enter your name',
-            labelText: 'Name',
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          TextFormField(
+            controller:c.userTextField,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.person),
+              border: OutlineInputBorder(),
+              hintText: 'Enter your name',
+              labelText: 'Name',
+            ),
+            validator: c.FormBuilderUserNameValidators,
           ),
-          validator: c.FormBuilderUserNameValidators,
-        ));
+        ],
+      ),
+    );
   }
+
 
   Widget buildGenderFormField() {
     return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(20),
-        child: Obx(() =>
-            DropdownButton<String>(
-              value: dropdownValue.value,
-              icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
-              style: const TextStyle(color: Colors.black),
-              underline: Container(
-                height: 2,
-                color: Colors.black,
-              ),
-              onChanged: (String? value) {
-                dropdownValue.value = value!;
-              },
-              items: list.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            )));
+        child: TextFormField(
+          controller: c.genderTextField,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.transgender),
+            border: OutlineInputBorder(),
+            hintText: 'Enter your gender',
+            labelText: 'Gender',
+          ),
+        ));
   }
 
   Widget buildPhoneFormField() {
@@ -140,7 +128,7 @@ class FormController extends GetxController {
         TextFormField(
           controller: c.phoneTextField,
           decoration: const InputDecoration(
-            icon: const Icon(Icons.phone),
+            icon: Icon(Icons.phone),
             border: OutlineInputBorder(),
             hintText: 'Enter a phone number',
             labelText: 'Phone',
@@ -164,7 +152,7 @@ class FormController extends GetxController {
           controller: c.confirmPasswordTextField,
           decoration: InputDecoration(
             icon: const Icon(Icons.password),
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             hintText: 'Enter a confirm password',
             labelText: 'Confirm Password',
             suffix: InkWell(
@@ -178,4 +166,6 @@ class FormController extends GetxController {
       );
     });
   }
+
+
 }
